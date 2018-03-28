@@ -29,3 +29,4 @@ We are working on Mac OS X, so we need to install Xcode command line tools. If t
 * This will create an environemnt called qt using python3.6 `$ conda create -n qt python=3.6 anaconda`
 * We can check what environment we're in by using `conda env list`, the active env is marked by a *
 * Switch to qt using `source activate qt`
+* For more info on the commands: [Here's a cheat sheet](https://conda.io/docs/_downloads/conda-cheatsheet.pdf)
