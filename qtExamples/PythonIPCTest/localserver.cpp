@@ -1,6 +1,12 @@
 #include "localserver.h"
+#include <QLocalServer>
 
-Localserver::Localserver(QObject *parent) : QObject(parent)
+Localserver::Localserver(QObject *parent)
+    : QLocalServer(parent)
 {
 
+}
+
+Localserver::~Localserver(){
+    // destructor method
 }
