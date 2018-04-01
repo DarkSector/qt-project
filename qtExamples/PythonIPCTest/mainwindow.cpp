@@ -34,6 +34,8 @@ void MainWindow::on_submitButton_clicked()
 
 void MainWindow::on_startButton_clicked()
 {
+    //https://stackoverflow.com/questions/15635215/not-able-to-start-qlocalserver
+    QLocalServer::removeServer("myLocalServer");
     if(!mLocalServer->listen("myLocalServer")){
         QMessageBox::critical(this, "Error", mLocalServer->errorString());
     }
