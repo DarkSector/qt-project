@@ -6,12 +6,13 @@
 
 class QLocalSocket;
 
-class Localserver : public QLocalServer
+class LocalServer : public QLocalServer
 {
     Q_OBJECT
 public:
-    explicit Localserver(QObject *parent = nullptr);
-    ~Localserver(); // destructor added
+    explicit LocalServer(QObject *parent = nullptr);    
+    ~LocalServer(); // destructor added
+    void submit(const QString &myString);
 
 private:
     QLocalSocket *localSocket;
