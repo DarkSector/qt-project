@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     launchButton = new QPushButton("Launch Python Script", this);
     launchButton->setGeometry(QRect(100, 100, 200, 100));
-    connect(launchButton, SIGNAL(clicked()), this, SLOT(on_button_press()));
+    connect(launchButton, SIGNAL(clicked()), this, SLOT(on_launchButton_press()));
 }
 
 MainWindow::~MainWindow()
@@ -19,7 +19,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_button_press(){
+void MainWindow::on_launchButton_press(){
     qDebug("Button pressed");
 
 }
