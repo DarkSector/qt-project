@@ -18,7 +18,6 @@ void LocalServer::submit(const QString &myString){
         T << myString;
         localSocket->flush();
     }
-
 }
 
 LocalServer::~LocalServer(){

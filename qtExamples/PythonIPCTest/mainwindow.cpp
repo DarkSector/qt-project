@@ -36,11 +36,21 @@ void MainWindow::on_startButton_clicked()
 {
     //https://stackoverflow.com/questions/15635215/not-able-to-start-qlocalserver
     QLocalServer::removeServer("myLocalServer");
-    if(!mLocalServer->listen("myLocalServer")){
-        QMessageBox::critical(this, "Error", mLocalServer->errorString());
+    if(!mLocalServer->isListening()){
+        // If not already listening
+        if(!mLocalServer->listen("myLocalServer")){
+            // start listening to myLocalServer socket
+            QMessageBox::critical(this, "Error", mLocalServer->errorString());
+            // if something goes wrong popup an error with actual reason
+        }
+        else{
+            QMessageBox::information(this, "Server status", "Server has been started");
+            // otherwise just tell the user it has been started
+        }
     }
     else{
-        QMessageBox::information(this, "Server status", "Server has been started");
+        // otherwise tell them you're listening
+        QMessageBox::information(this, "Server status", "Server is already listening");
     }
 
 }
