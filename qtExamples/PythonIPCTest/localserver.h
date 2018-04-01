@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QLocalServer>
 
+class QLocalSocket;
+
 class Localserver : public QLocalServer
 {
     Q_OBJECT
@@ -11,7 +13,8 @@ public:
     explicit Localserver(QObject *parent = nullptr);
     ~Localserver(); // destructor added
 
-signals:
+private:
+    QLocalSocket *localSocket;
 
 public slots:
 };
