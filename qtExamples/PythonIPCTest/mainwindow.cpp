@@ -37,4 +37,8 @@ void MainWindow::on_startButton_clicked()
     if(!mLocalServer->listen("myLocalServer")){
         QMessageBox::critical(this, "Error", mLocalServer->errorString());
     }
+    else{
+        QMessageBox::information(this, "Server status", "Server has been started");
+    }
+
 }
