@@ -11,9 +11,14 @@ LocalServer::LocalServer(QObject *parent)
 }
 
 void LocalServer::submit(const QString &myString){
-    QTextStream T(localSocket);
-    T << myString;
-    localSocket->flush();
+    // Method is kill
+    if (localSocket){
+        // only stream if a socket exists
+        QTextStream T(localSocket);
+        T << myString;
+        localSocket->flush();
+    }
+
 }
 
 LocalServer::~LocalServer(){
