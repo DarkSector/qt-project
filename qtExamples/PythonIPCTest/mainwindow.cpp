@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QPushButton>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     launchButton = new QPushButton("Launch Python Script", this);
     launchButton->setGeometry(QRect(100, 100, 200, 100));
+    connect(launchButton, SIGNAL(clicked()), this, SLOT(on_button_press()));
 }
 
 MainWindow::~MainWindow()
@@ -18,5 +20,6 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_button_press(){
+    qDebug("Button pressed");
 
 }
