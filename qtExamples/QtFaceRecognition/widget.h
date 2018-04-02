@@ -2,6 +2,9 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QGraphicsScene>
+#include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
 
 namespace Ui {
 class Widget;
@@ -36,10 +39,17 @@ private slots:
 
 private:
     Ui::Widget *ui;
+
+    // Camera
     QCamera *pCamera;
     QCameraViewfinder *pCameraViewfinder;
     QCameraImageCapture *pCameraImageCapture;
     QVBoxLayout *pLayout;
+
+    // Graphics
+    QGraphicsScene *scene;
+    QGraphicsRectItem *rect;
+    QGraphicsPixmapItem *image;
 };
 
 #endif // WIDGET_H

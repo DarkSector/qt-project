@@ -9,7 +9,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QPixmap>
-#include <QImage>
+#include <QGraphicsView>
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -31,7 +31,7 @@ Widget::Widget(QWidget *parent) :
     pCamera->setViewfinder(pCameraViewfinder);
 
     // And add the viewfinder widget to the layout
-    pLayout->addWidget(pCameraViewfinder);
+    pLayout->addWidget(pCameraViewfinder);    
 
     // add layout to scroll area on the uI
     ui->scrollArea->setLayout(pLayout);
@@ -41,6 +41,10 @@ Widget::Widget(QWidget *parent) :
 
     // Connect signal coming from image capture and map it with a private slot
     connect(pCameraImageCapture, SIGNAL(imageSaved(int,QString)), this, SLOT(onImageSaved(int ,QString)));
+
+    // Graphics initialization
+    scene = new QGraphicsScene(this);
+    ui->graphicsView->setScene(scene);
 
 }
 
@@ -135,8 +139,25 @@ void Widget::on_browseButton_clicked()
 
 void Widget::on_loadImage_clicked()
 {
-    QString filename = QFileDialog::getOpenFileName(this, tr("Load Image"), "/home", "Images (*.png; *.jpeg; *.jpg)");
+
+    // Open filedialog at /home
+    QString filename = QFileDialog::getOpenFileName(this, tr("Load Image"),
+                                                    "/home",
+                                                    "Images (*.png; *.jpeg; *.jpg)");
+    // if nothing is selected, do nothing, just exit
     if (filename.isEmpty()){
         return;
     }
+
+    // set the status label to the item name
+    ui->statusLabel->setText(filename);
+
+    // new image
+    image = new QGraphicsPixmapItem(QPixmap::fromImage(QImage(filename)));
+
+    // remove all items before you add another item
+    scene->clear();
+
+    // Add the new image item
+    scene->addItem(image);
 }
