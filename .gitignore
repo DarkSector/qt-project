@@ -30,3 +30,15 @@
 *.exe
 *.out
 *.app
+
+python/qtAPI/\.idea/misc\.xml
+
+python/qtAPI/\.idea/modules\.xml
+
+python/qtAPI/\.idea/qtAPI\.iml
+
+python/qtAPI/\.idea/workspace\.xml
+
+*.sqlite3
+
+*.pyc
