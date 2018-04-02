@@ -18,12 +18,17 @@ class Widget : public QWidget
 
 public:
     explicit Widget(QWidget *parent = nullptr);
+    void setEncoding();
     ~Widget();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_tabWidget_currentChanged(int index);
 
-    void on_pushButton_2_clicked();
+    void on_applicationClose_clicked();
+
+    void on_takePicture_clicked();
+
+    void on_browseButton_clicked();
 
 private:
     Ui::Widget *ui;
