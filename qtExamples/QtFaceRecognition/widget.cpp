@@ -8,6 +8,8 @@
 #include <QVBoxLayout>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QPixmap>
+#include <QImage>
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -37,6 +39,7 @@ Widget::Widget(QWidget *parent) :
     setEncoding();
     pCamera->start();
 
+    // Connect signal coming from image capture and map it with a private slot
     connect(pCameraImageCapture, SIGNAL(imageSaved(int,QString)), this, SLOT(onImageSaved(int ,QString)));
 
 }
@@ -77,12 +80,25 @@ void Widget::on_applicationClose_clicked()
 }
 
 void Widget::onImageSaved(int id, const QString &fileName){
-    QString name = QString("Image saved at\n\n%1\n\nWould you like to use this? Press Yes to proceed or No to go back").arg(fileName);
 
-    QMessageBox::StandardButton reply = QMessageBox::question(this, "Image saved!", name, QMessageBox::Yes | QMessageBox::No);
+    // Question message content
+    QString name = QString("Image saved at\n\n"
+                           "%1\n\n"
+                           "Would you like to use this? Press Yes to proceed or No to go back").arg(fileName);
 
+    // Message box reply comes back
+    QMessageBox::StandardButton reply = QMessageBox::question(this,
+                                                              "Image saved!",
+                                                              name,
+                                                             QMessageBox::Yes | QMessageBox::No);
+
+    // If yes, switch to preview
     if(reply == QMessageBox::Yes){
         qDebug() << "Go to preview";
+        ui->tabWidget->setCurrentIndex(1);
+
+
+        ui->imagePreviewScrollArea->setLayout();
     }
 }
 
@@ -102,7 +118,6 @@ void Widget::on_takePicture_clicked()
         pCameraImageCapture->capture();
     }
 }
-
 
 void Widget::setEncoding(){
     pCameraImageCapture->setCaptureDestination(QCameraImageCapture::CaptureToFile);
