@@ -100,6 +100,17 @@ void Widget::onImageSaved(int id, const QString &fileName){
     if(reply == QMessageBox::Yes){
         qDebug() << "Go to preview";
         ui->tabWidget->setCurrentIndex(1);
+
+        ui->statusLabel->setText(fileName);
+
+        // new image
+        image = new QGraphicsPixmapItem(QPixmap::fromImage(QImage(fileName)));
+
+        // remove all items before you add another item
+        scene->clear();
+
+        // Add the new image item
+        scene->addItem(image);
     }
 }
 
