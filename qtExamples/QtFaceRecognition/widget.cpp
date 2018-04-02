@@ -77,7 +77,13 @@ void Widget::on_applicationClose_clicked()
 }
 
 void Widget::onImageSaved(int id, const QString &fileName){
-    qDebug()  << QString("Id %1 FILENAME: %2").arg(id).arg(fileName);
+    QString name = QString("Image saved at\n\n%1\n\nWould you like to use this? Press Yes to proceed or No to go back").arg(fileName);
+
+    QMessageBox::StandardButton reply = QMessageBox::question(this, "Image saved!", name, QMessageBox::Yes | QMessageBox::No);
+
+    if(reply == QMessageBox::Yes){
+        qDebug() << "Go to preview";
+    }
 }
 
 void Widget::on_takePicture_clicked()
