@@ -7,6 +7,7 @@
 #include <QCameraImageCapture>
 #include <QVBoxLayout>
 #include <QFileDialog>
+#include <QMessageBox>
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -36,6 +37,8 @@ Widget::Widget(QWidget *parent) :
     setEncoding();
     pCamera->start();
 
+    connect(pCameraImageCapture, SIGNAL(imageSaved(int,QString)), this, SLOT(onImageSaved(int ,QString)));
+
 }
 
 Widget::~Widget()
@@ -62,6 +65,7 @@ void Widget::on_tabWidget_currentChanged(int index)
 //            break;
         default:
             qDebug("Stopping camera");
+
             pCamera->stop();
             break;
     }
@@ -72,11 +76,25 @@ void Widget::on_applicationClose_clicked()
     close();
 }
 
+void Widget::onImageSaved(int id, const QString &fileName){
+    qDebug()  << QString("Id %1 FILENAME: %2").arg(id).arg(fileName);
+}
+
 void Widget::on_takePicture_clicked()
 {
+
+    QString destinationPath = ui->pathField->text();
+
+
     pCamera->searchAndLock();
-    pCameraImageCapture->capture(ui->pathField->text());
     pCamera->unlock();
+
+    if (destinationPath.size() > 0){
+        pCameraImageCapture->capture(destinationPath);
+    }
+    else{
+        pCameraImageCapture->capture();
+    }
 }
 
 
