@@ -58,10 +58,10 @@ void Widget::on_tabWidget_currentChanged(int index)
             setEncoding();
             pCamera->start();
             break;
-//        case 1:
-//            qDebug("Gallery");
-//            pCamera->stop();
-//            break;
+        case 1:
+            qDebug("Gallery");
+            pCamera->stop();
+            break;
 //        case 2:
 //            qDebug("Analysis");
 //            pCamera->stop();
@@ -96,9 +96,6 @@ void Widget::onImageSaved(int id, const QString &fileName){
     if(reply == QMessageBox::Yes){
         qDebug() << "Go to preview";
         ui->tabWidget->setCurrentIndex(1);
-
-
-        ui->imagePreviewScrollArea->setLayout();
     }
 }
 
@@ -134,4 +131,12 @@ void Widget::on_browseButton_clicked()
                                                  "/home",
                                                  QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     ui->pathField->setText(dir);
+}
+
+void Widget::on_loadImage_clicked()
+{
+    QString filename = QFileDialog::getOpenFileName(this, tr("Load Image"), "/home", "Images (*.png; *.jpeg; *.jpg)");
+    if (filename.isEmpty()){
+        return;
+    }
 }

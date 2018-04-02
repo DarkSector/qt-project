@@ -32,6 +32,8 @@ private slots:
 
     void onImageSaved(int id, const QString &fileName);
 
+    void on_loadImage_clicked();
+
 private:
     Ui::Widget *ui;
     QCamera *pCamera;
