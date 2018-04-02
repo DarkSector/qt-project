@@ -97,7 +97,7 @@
    </widget>
    <widget class="QWidget" name="galleryTab">
     <attribute name="title">
-     <string>GALLERY</string>
+     <string>PREVIEW</string>
     </attribute>
     <widget class="QPushButton" name="runFaceRecognition">
      <property name="geometry">
