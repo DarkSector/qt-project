@@ -7,16 +7,28 @@ namespace Ui {
 class Widget;
 }
 
+class QCamera;
+class QCameraViewfinder;
+class QCameraImageCapture;
+class QVBoxLayout;
+
 class Widget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit Widget(QWidget *parent = 0);
+    explicit Widget(QWidget *parent = nullptr);
     ~Widget();
+
+private slots:
+    void on_pushButton_clicked();
 
 private:
     Ui::Widget *ui;
+    QCamera *pCamera;
+    QCameraViewfinder *pCameraViewfinder;
+    QCameraImageCapture *pCameraImageCapture;
+    QVBoxLayout *pVBoxLayout;
 };
 
 #endif // WIDGET_H
