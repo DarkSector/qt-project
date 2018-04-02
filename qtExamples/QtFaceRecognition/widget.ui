@@ -13,201 +13,154 @@
   <property name="windowTitle">
    <string>QT Face Recognition </string>
   </property>
-  <widget class="QTabWidget" name="tabWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>721</width>
-     <height>471</height>
-    </rect>
-   </property>
-   <property name="currentIndex">
-    <number>0</number>
-   </property>
-   <widget class="QWidget" name="cameraTab">
-    <attribute name="title">
-     <string>CAMERA</string>
-    </attribute>
-    <widget class="QPushButton" name="takePicture">
-     <property name="geometry">
-      <rect>
-       <x>310</x>
-       <y>400</y>
-       <width>101</width>
-       <height>31</height>
-      </rect>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0" colspan="2">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <property name="text">
-      <string>Take Picture</string>
-     </property>
-    </widget>
-    <widget class="QScrollArea" name="scrollArea">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>50</y>
-       <width>721</width>
-       <height>341</height>
-      </rect>
-     </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>719</width>
-        <height>339</height>
-       </rect>
-      </property>
+     <widget class="QWidget" name="cameraTab">
+      <attribute name="title">
+       <string>CAMERA</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="imageDestinationField">
+           <property name="text">
+            <string>Custom Destination</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="pathField"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="browseButton">
+           <property name="text">
+            <string>Browse</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <widget class="QScrollArea" name="scrollArea">
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>695</width>
+            <height>361</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="takePicture">
+         <property name="text">
+          <string>Take Picture</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="galleryTab">
+      <attribute name="title">
+       <string>PREVIEW</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QGraphicsView" name="graphicsView"/>
+       </item>
+       <item row="0" column="1">
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QPushButton" name="runFaceDetection">
+           <property name="text">
+            <string>Run Face Detection</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="runFaceRecognition">
+           <property name="text">
+            <string>Run Face Recognition</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="generateHistogram">
+           <property name="text">
+            <string>Generate Histogram</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>68</width>
+             <height>68</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="loadImage">
+           <property name="text">
+            <string>Load Image</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>68</width>
+             <height>158</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="analysisTab">
+      <attribute name="title">
+       <string>ANALYSIS</string>
+      </attribute>
      </widget>
     </widget>
-    <widget class="QWidget" name="">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>10</y>
-       <width>681</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QLabel" name="imageDestinationField">
-        <property name="text">
-         <string>Custom Destination</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="pathField"/>
-      </item>
-      <item>
-       <widget class="QPushButton" name="browseButton">
-        <property name="text">
-         <string>Browse</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="galleryTab">
-    <attribute name="title">
-     <string>PREVIEW</string>
-    </attribute>
-    <widget class="QGraphicsView" name="graphicsView">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>521</width>
-       <height>421</height>
-      </rect>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="statusLabel">
+     <property name="text">
+      <string>Welcome!</string>
      </property>
     </widget>
-    <widget class="QWidget" name="">
-     <property name="geometry">
-      <rect>
-       <x>539</x>
-       <y>10</y>
-       <width>171</width>
-       <height>421</height>
-      </rect>
+   </item>
+   <item row="1" column="1">
+    <widget class="QPushButton" name="applicationClose">
+     <property name="text">
+      <string>Close Application</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QPushButton" name="runFaceDetection">
-        <property name="text">
-         <string>Run Face Detection</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="runFaceRecognition">
-        <property name="text">
-         <string>Run Face Recognition</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="generateHistogram">
-        <property name="text">
-         <string>Generate Histogram</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>68</width>
-          <height>68</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QPushButton" name="loadImage">
-        <property name="text">
-         <string>Load Image</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>68</width>
-          <height>158</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
     </widget>
-   </widget>
-   <widget class="QWidget" name="analysisTab">
-    <attribute name="title">
-     <string>ANALYSIS</string>
-    </attribute>
-   </widget>
-  </widget>
-  <widget class="QPushButton" name="applicationClose">
-   <property name="geometry">
-    <rect>
-     <x>599</x>
-     <y>490</y>
-     <width>131</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Close Application</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="statusLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>490</y>
-     <width>581</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Welcome!</string>
-   </property>
-  </widget>
+   </item>
+  </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
