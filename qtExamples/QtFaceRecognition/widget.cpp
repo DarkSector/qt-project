@@ -12,8 +12,11 @@ Widget::Widget(QWidget *parent) :
     ui->setupUi(this);
     pCamera = new QCamera(this);
     pCameraViewfinder = new QCameraViewfinder(this);
-    pCameraImageCapture = new QCameraImageCapture(this);
-    pVBoxLayout = new QVBoxLayout(this);
+    pCameraImageCapture = new QCameraImageCapture(pCamera, this);
+    pLayout = new QVBoxLayout;
+
+    pLayout->addWidget(pCameraViewfinder);
+    ui->scrollArea->setLayout(pLayout);
 
 }
 
@@ -26,4 +29,10 @@ void Widget::on_pushButton_clicked()
 {
     // Terminate application
     close();
+}
+
+void Widget::on_pushButton_2_clicked()
+{
+    // Take picture here
+
 }
