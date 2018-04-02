@@ -23,12 +23,14 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::Widget *ui;
     QCamera *pCamera;
     QCameraViewfinder *pCameraViewfinder;
     QCameraImageCapture *pCameraImageCapture;
-    QVBoxLayout *pVBoxLayout;
+    QVBoxLayout *pLayout;
 };
 
 #endif // WIDGET_H
