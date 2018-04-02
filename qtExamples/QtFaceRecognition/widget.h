@@ -30,6 +30,8 @@ private slots:
 
     void on_browseButton_clicked();
 
+    void onImageSaved(int id, const QString &fileName);
+
 private:
     Ui::Widget *ui;
     QCamera *pCamera;
