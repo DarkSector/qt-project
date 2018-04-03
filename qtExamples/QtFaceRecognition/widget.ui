@@ -29,7 +29,7 @@
          <item>
           <widget class="QLabel" name="imageDestinationField">
            <property name="text">
-            <string>Custom Destination</string>
+            <string>Image Destination</string>
            </property>
           </widget>
          </item>
