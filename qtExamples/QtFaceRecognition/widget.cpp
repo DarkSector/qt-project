@@ -201,7 +201,7 @@ void Widget::on_generateHistogram_clicked()
         connect(manager,
                 SIGNAL(finished(QNetworkReply*)),
                 this,
-                SLOT(serviceRequestFinished(QNetworkReply*)));
+                SLOT(histogramGenerateRequestComplete(QNetworkReply*)));
 
         manager->post(request, data.toJson());
     }
@@ -270,7 +270,6 @@ void Widget::imageNotLoadedError(){
     QMessageBox::critical(this, "Image Error", "Image not loaded\n\nPlease take a new picture or load one");
 }
 
-
 void Widget::histogramGenerateRequestComplete(QNetworkReply *reply){
 
     QByteArray buffer = reply->readAll();
@@ -292,3 +291,4 @@ void Widget::histogramGenerateRequestComplete(QNetworkReply *reply){
         qDebug() << error;
     }
 }
+
