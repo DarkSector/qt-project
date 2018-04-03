@@ -28,8 +28,9 @@ class FaceDetection(APIView):
         except ImageNotFoundException:
             return Response({"error": True, "data": "Image not found"})
         else:
-            if features.size != 0:
-                return Response({"error": False, "data": features.tolist()})
-            # because validation error sends back a 400
+            if not isinstance(features, tuple):
+                if features.size != 0:
+                    return Response({"error": False, "data": features.tolist()})
+                # because validation error sends back a 400
             return Response({"error": True, "data": "No faces found"})
 
