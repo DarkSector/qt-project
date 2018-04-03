@@ -4,8 +4,8 @@ A simple Qt-Python hybrid experiment
 
 ## INDEX
  * [Objective](#objective)
- * [Requirements](#Requirements)
- * [Setup, Installation and Running](#installation)
+ * [Requirements](#requirements)
+ * [Setup, Installation and Running](##setup-installation-and-running)
  * [Architecture](#architecture)
  * [Caveats and known issues](#caveats)
  * [Future work](#futurework)
@@ -80,4 +80,34 @@ The script is designed to install the included python package in the conda envir
 If the above script fails to work, you can manually install the python package by executing `conda install --use-local opencv-server` and once done, you can start the server by `python runkernel.py`
 
 Then you can open the GUI like any other app on OS X.
+
+
+
+## Architecture
+
+So the objective is to build a hybrid application that relies on a C++ GUI and a python kernel. The kernel being an app that does all the heavy lifting on the data. In this case, it uses pyOpenCV to detect faces on an image loaded via the GUI. The GUI follows the old server-frontend architecture, relying on HTTP Requests. The reason for this decision is described further into this section.
+
+
+There are multiple ways you can have your Qt application built in C++ interact with a python kernel. They are [documented here](http://doc.qt.io/qt-5/ipc.html). But to summarize: 
+
+* Shared Memory
+* DBus
+* QProcess
+* Sockets
+* Session management
+
+However there are issues with most of them. [Shared Memory only works with within Qt Applications](https://stackoverflow.com/questions/5134412/parent-process-cant-access-shared-memory-in-pyqt). You can share memory between Qt and non Qt applications. (It can work within PyQt applications but not between the two langugages)
+
+[Linux DBus isn't available on Mac OS natively](https://github.com/zbentley/dbus-osx-examples/tree/master/installation). Setup requires installation via Homebrew and setup with Launchd.
+
+QProcess works but it isn't a way to communicate large amounts of data, it's a way to spawn and control processes from within your Qt Application
+
+[Session management are for sharing events across multiple processes on X11/Linux, may not work on Windows and Mac OS](http://doc.qt.io/qt-5/session.html).
+
+Sockets: We're left with LocalSockets, TCP/IP Sockets, SSL Sockets. 
+
+LocalSockets imply a standard unix filesystem socket can be used to communicate. [But there is a limitation of data you can read from it](https://stackoverflow.com/questions/14831819/reading-more-than-2048-bytes-from-qlocalsocket). And since sockets seem to be the only well/officially documented IPC system, it seems prudent to use it. So, to make it platform independent, TCP/IP sockets seem to be the best bet.
+
+Other options like accessing QObject via PythonQt are available. However these are open source projects and don't always support Qt's latest releases. The last release [PythonQt supported was `Qt5.8`](https://sourceforge.net/p/pythonqt/news/2017/06/pythonqt-32-released/). This application is built using `Qt 5.10`
+
 
