@@ -10,17 +10,29 @@ class ImageNotFoundException(Exception):
 
 
 class Histogram(object):
-    bins = [8, 8, 8]
 
     def __init__(self, image_location, histogram_type='rgb'):
+        """
+        Currently only supports RGB histogram
+        :param image_location: type: ``str`` Image location that can be used to read image by OpenCV
+        :param histogram_type: type: ``str`` Type of histogram
+        """
         self.image_location = image_location
         self.histogram_type = histogram_type
 
     @property
     def image(self):
-        return cv2.imread(self.image_location)
+        """
+        Reads in the image from the given location
+        :return: ``numpy.array``
+        """
+        img = cv2.imread(self.image_location, cv2.IMREAD_COLOR)
+        if img is None:
+            raise ImageNotFoundException("Unable to find image in location")
+        return img
 
     def generate(self):
+
         # b 0 , g 1, r 2
         # mask is None
         # bins are 128 by default
