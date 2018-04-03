@@ -25,7 +25,7 @@ SECRET_KEY = 'piqhfu*_gl+ehq$^x_fns51v24mj5@p#2s2aykeal5s=g42^lq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
 
 # Application definition
@@ -51,7 +51,8 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {
-
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
 }
 
 ROOT_URLCONF = 'qtAPIServer.urls'
