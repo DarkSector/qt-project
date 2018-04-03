@@ -24,13 +24,12 @@ class Histogram(object):
         # b 0 , g 1, r 2
         # mask is None
         # bins are 128 by default
-        hist_list = np.array([])
-        for channel in range(3):
-            _hist = cv2.calcHist([self.image], [channel], None, [8], [0, 256])
-            hist = cv2.normalize(_hist)
-
-        # return out 3D histogram as a flattened array
-        return hist.flatten()
+        hist_dict = {}
+        colors = ('b', 'g', 'r')
+        for channel, col in enumerate(colors):
+            hist = cv2.calcHist([self.image], [channel], None, [256], [0, 256])
+            hist_dict.update({col: hist.flatten().tolist()})
+        return hist_dict
 
     def show_image(self):
         cv2.imshow('My Image', self.image)

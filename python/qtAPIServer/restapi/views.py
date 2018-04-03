@@ -15,7 +15,7 @@ class GenerateHistogramView(APIView):
         # use opencv to create a histogram and return results
         histogram = Histogram(image_location, 'rgb')
         data = histogram.generate()
-        return Response({'foo': 'bar'})
+        return Response({'error': False, 'data': data})
 
 
 class FaceDetection(APIView):
