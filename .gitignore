@@ -31,14 +31,12 @@
 *.out
 *.app
 
-python/qtAPI/\.idea/misc\.xml
+python/qtAPI/.idea/*
 
-python/qtAPI/\.idea/modules\.xml
-
-python/qtAPI/\.idea/qtAPI\.iml
-
-python/qtAPI/\.idea/workspace\.xml
+python/qtAPIServer/.idea/*
 
 *.sqlite3
 
 *.pyc
+
+*.pro.user
