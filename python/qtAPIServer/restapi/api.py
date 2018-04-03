@@ -67,7 +67,7 @@ class HaarCascadeFaceDetection(object):
         :return: ``cv2.CascadeClassifier``
         """
         _classifier = cv2.CascadeClassifier(self.face_classifier_cascade_file)
-        print type(_classifier)
+        # print type(_classifier)
         return _classifier
 
     @property
