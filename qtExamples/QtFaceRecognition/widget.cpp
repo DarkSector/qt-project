@@ -210,29 +210,6 @@ void Widget::on_generateHistogram_clicked()
     }
 }
 
-void Widget::faceDetectserviceRequestFinished(QNetworkReply *reply){
-
-    QByteArray buffer = reply->readAll();
-//    qDebug() << buffer;
-
-    // convert buffer to object
-    QJsonDocument jsonDoc(QJsonDocument::fromJson(buffer));
-    QJsonObject jsonReply = jsonDoc.object();
-
-    qDebug() << jsonReply;
-
-    bool error = jsonReply["error"].toBool();
-
-
-    if (!error){
-        QJsonArray data = jsonReply["data"].toArray();
-        qDebug() << data;
-    }
-    else{
-        qDebug() << error;
-    }
-}
-
 bool Widget::checkifSceneEmpty(){
     return !scene->items().empty();
 //    return false;
@@ -292,3 +269,35 @@ void Widget::histogramGenerateRequestComplete(QNetworkReply *reply){
     }
 }
 
+void Widget::faceDetectserviceRequestFinished(QNetworkReply *reply){
+
+    QByteArray buffer = reply->readAll();
+//    qDebug() << buffer;
+
+    // convert buffer to object
+    QJsonDocument jsonDoc(QJsonDocument::fromJson(buffer));
+    QJsonObject jsonReply = jsonDoc.object();
+
+    qDebug() << jsonReply;
+
+    bool error = jsonReply["error"].toBool();
+
+
+    if (!error){
+        // This means data came back with actual values
+        QJsonArray data = jsonReply["data"].toArray();
+        qDebug() << "About to iterate over object";
+
+        for(auto v: data){
+            QJsonArray arr = v.toArray();
+            QGraphicsRectItem *rect = new QGraphicsRectItem();
+            rect->setRect(arr[0].toInt(), arr[1].toInt(), arr[2].toInt(), arr[3].toInt());
+            scene->addItem(rect);
+        }
+    }
+    else{
+        // This is error
+        qDebug() << "Error encountered";
+        qDebug() << error;
+    }
+}
