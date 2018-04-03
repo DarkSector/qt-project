@@ -37,21 +37,68 @@ class Histogram(object):
 
 
 class HaarCascadeFaceDetection(object):
+    _line_thickness = 2
+    _blue = (255, 0, 0)
+    _green = (0, 255, 0)
+    _red = (0, 0, 255)
+    face_classifier_cascade_file = "haarcascades/haarcascade_frontalface_default.xml"
 
     def __init__(self, image_location):
         self.image_location = image_location
 
     @property
     def image(self):
+        """
+        Reads the image from the given location in the constructor
+        :return: ``numpy.nd``
+        """
         img = cv2.imread(self.image_location, cv2.IMREAD_COLOR)
         if img is None:
             raise ImageNotFoundException("Unable to find image in location")
         return img
 
     @property
-    def face_cascade_classifier(self):
-        return None
+    def get_classifier(self):
+        """
+        Returns the cascade classifier with the currently selected classifier training data
+        :return: ``cv2.CascadeClassifier``
+        """
+        return cv2.CascadeClassifier(self.face_classifier_cascade_file)
+
+    @property
+    def gray(self):
+        """
+        Color the picture gray
+        :return: ``numpy.nd``
+        """
+        return cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
 
     def _detect_faces(self):
-        pass
+        """
+        Find all features in a given image and return coordinates for bounding boxes as numpy array
+        :return: ``numpy.nd``
+        """
+        return self.get_classifier.detectMultiScale(self.gray, 1.5, 5)
 
+    def detect(self):
+        """
+        Function detects faces according to given
+        :return: ``numpy.ndarray``
+        """
+        return self._detect_faces()
+
+    def show_classified_image(self):
+        """
+        Method shows the image after detection with bounding box
+        :return:
+        """
+        image = self.image
+        for (x, y, w, h) in self._detect_faces():
+            point1 = (x, y)
+            point2 = (x + w, y + h)
+            # draw the rectangle on all possible faces
+            cv2.rectangle(image, point1, point2, self._red, self._line_thickness)
+
+        cv2.imshow('Face Detection Debug', image)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
