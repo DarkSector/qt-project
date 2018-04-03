@@ -25,6 +25,7 @@ public:
     void setEncoding();
     bool checkifSceneEmpty();
     void imageNotLoadedError();
+    void updateCurrentStatus(QString, bool);
     ~Widget();
 
 private slots:

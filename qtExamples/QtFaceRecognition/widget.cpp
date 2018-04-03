@@ -18,12 +18,14 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QProcess>
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
 {
-    ui->setupUi(this);
+    ui->setupUi(this);           
+
     // Always start with 0
     ui->tabWidget->setCurrentIndex(0);
 
@@ -88,7 +90,14 @@ void Widget::on_tabWidget_currentChanged(int index)
 
 void Widget::on_applicationClose_clicked()
 {
-    close();
+    QMessageBox::StandardButton reply = QMessageBox::question(this,
+                                                               "Close application",
+                                                               "Are you sure?",
+                                                               QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::Yes){
+        close();
+    }
+
 }
 
 void Widget::onImageSaved(int id, const QString &fileName){
@@ -242,7 +251,7 @@ void Widget::on_runFaceDetection_clicked()
         updateCurrentStatus("Sending request ...", false);
     }
     else{
-        this->imageNotLoadedError();
+        this->on_loadImage_clicked();
     }
 
 }
@@ -276,36 +285,46 @@ void Widget::histogramGenerateRequestComplete(QNetworkReply *reply){
 void Widget::faceDetectserviceRequestFinished(QNetworkReply *reply){
 
     QByteArray buffer = reply->readAll();
-//    qDebug() << buffer;
+    qDebug() << buffer;
 
-    // convert buffer to object
-    QJsonDocument jsonDoc(QJsonDocument::fromJson(buffer));
-    QJsonObject jsonReply = jsonDoc.object();
-
-    qDebug() << jsonReply;
-
-    bool error = jsonReply["error"].toBool();
+    if (!buffer.isEmpty()){
 
 
-    if (!error){
-        // This means data came back with actual values
-        QJsonArray data = jsonReply["data"].toArray();
-        qDebug() << "About to iterate over object";
+        // convert buffer to object
+        QJsonDocument jsonDoc(QJsonDocument::fromJson(buffer));
+        QJsonObject jsonReply = jsonDoc.object();
 
-        for(auto v: data){
-            QJsonArray arr = v.toArray();
-            QGraphicsRectItem *rect = new QGraphicsRectItem();
-            rect->setRect(arr[0].toInt(), arr[1].toInt(), arr[2].toInt(), arr[3].toInt());
-            scene->addItem(rect);
+        qDebug() << jsonReply;
+
+        bool error = jsonReply["error"].toBool();
+
+
+        if (!error){
+            // This means data came back with actual values
+            QJsonArray data = jsonReply["data"].toArray();
+            qDebug() << "About to iterate over object";
+
+            for(auto v: data){
+                QJsonArray arr = v.toArray();
+                QGraphicsRectItem *rect = new QGraphicsRectItem();
+                rect->setRect(arr[0].toInt(), arr[1].toInt(), arr[2].toInt(), arr[3].toInt());
+                scene->addItem(rect);
+            }
+            updateCurrentStatus(QString("\n\nRequest Completed\n\nFaces detected"), true);
         }
-        updateCurrentStatus(QString("\n\nRequest Completed\n\nFaces detected"), true);
+        else{
+            // This is error
+            qDebug() << "Error encountered";
+            qDebug() << error;
+            updateCurrentStatus(QString("\n\nRequest Completed\n\nNo images detected"), true);
+        }
     }
+
     else{
-        // This is error
-        qDebug() << "Error encountered";
-        qDebug() << error;
-        updateCurrentStatus(QString("\n\nRequest Completed\n\nNo images detected"), true);
+        QMessageBox::critical(this, "Error", "No response from server\nPlease make sure the server is running"
+                                             "before feature detection");
     }
+
 }
 
 void Widget::updateCurrentStatus(QString status, bool append=false){
