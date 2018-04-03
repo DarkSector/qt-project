@@ -91,8 +91,8 @@ void Widget::on_tabWidget_currentChanged(int index)
 void Widget::on_applicationClose_clicked()
 {
     QMessageBox::StandardButton reply = QMessageBox::question(this,
-                                                               "Close application",
-                                                               "Are you sure?",
+                                                               tr("Close application"),
+                                                               tr("Are you sure?"),
                                                                QMessageBox::Yes | QMessageBox::No);
     if (reply == QMessageBox::Yes){
         close();
@@ -109,7 +109,7 @@ void Widget::onImageSaved(int id, const QString &fileName){
 
     // Message box reply comes back
     QMessageBox::StandardButton reply = QMessageBox::question(this,
-                                                              "Image saved!",
+                                                              tr("Image saved!"),
                                                               name,
                                                              QMessageBox::Yes | QMessageBox::No);
 
@@ -252,8 +252,8 @@ void Widget::on_runFaceDetection_clicked()
     }
     else{
         QMessageBox::StandardButton reply = QMessageBox::information(this,
-                                                                     "Feature detection",
-                                                                     "Please upload an image before processing\n\nUpload now?",
+                                                                     tr("Feature detection"),
+                                                                     tr("Please load an image before processing\n\nLoad now?"),
                                                                      QMessageBox::Yes | QMessageBox::No);
         if (reply == QMessageBox::Yes){
             this->on_loadImage_clicked();
@@ -264,7 +264,7 @@ void Widget::on_runFaceDetection_clicked()
 }
 
 void Widget::imageNotLoadedError(){
-    QMessageBox::critical(this, "Image Error", "Image not loaded\n\nPlease take a new picture or load one");
+    QMessageBox::critical(this, tr("Image Error"), tr("Image not loaded\n\nPlease take a new picture or load one"));
 }
 
 void Widget::histogramGenerateRequestComplete(QNetworkReply *reply){
@@ -328,8 +328,8 @@ void Widget::faceDetectserviceRequestFinished(QNetworkReply *reply){
     }
 
     else{
-        QMessageBox::critical(this, "Error", "No response from server\nPlease make sure the server is running"
-                                             "before feature detection");
+        QMessageBox::critical(this, tr("Error"), tr("No response from server\nPlease make sure the server is running"
+                                             "before feature detection"));
     }
 
 }
