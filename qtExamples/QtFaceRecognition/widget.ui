@@ -156,6 +156,16 @@
       <attribute name="title">
        <string>HISTOGRAM</string>
       </attribute>
+      <widget class="QGraphicsView" name="histogramGraphicsView">
+       <property name="geometry">
+        <rect>
+         <x>15</x>
+         <y>11</y>
+         <width>691</width>
+         <height>421</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
     </widget>
    </item>
