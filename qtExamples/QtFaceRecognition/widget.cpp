@@ -348,6 +348,9 @@ void Widget::histogramGenerateRequestComplete(QNetworkReply *reply){
 
             // resize it to fill out the entire graphicsview
             chartView->resize(ui->histogramGraphicsView->width(), ui->histogramGraphicsView->height());
+
+            // remove existing data if any and then add the histogram chart to the scene
+            histogramScene->clear();
             histogramScene->addWidget(chartView);
 
             // move over to the tab once it's done
