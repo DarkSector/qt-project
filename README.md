@@ -5,10 +5,14 @@ A simple Qt-Python hybrid experiment
 ## INDEX
  * [Objective](#objective)
  * [Requirements](#requirements)
- * [Setup, Installation and Running](##setup-installation-and-running)
+ * [Setup, Installation and Running](#setup-installation-and-running)
  * [Architecture](#architecture)
  * [Caveats and known issues](#caveats)
  * [Future work](#futurework)
+
+## Objective
+
+To create a Qt GUI application that interacts with a python kernel to detect faces in a given image.
 
 
 ## Requirements
