@@ -2,8 +2,13 @@ import numpy as np
 import cv2
 
 
+class ImageNotFoundException(Exception):
+    def __init__(self, message):
+        super(ImageNotFoundException, self).__init__(message)
+
+
 class Histogram(object):
-    bins = 128
+    bins = [8, 8, 8]
 
     def __init__(self, image_location, histogram_type='rgb'):
         self.image_location = image_location
@@ -17,7 +22,10 @@ class Histogram(object):
         # b 0 , g 1, r 2
         # mask is None
         # bins are 128 by default
-        hist = np.histogram([self.image], self.bins, [0, 256, 0, 256, 0, 256],)
+        hist_list = np.array([])
+        for channel in range(3):
+            _hist = cv2.calcHist([self.image], [channel], None, [8], [0, 256])
+            hist = cv2.normalize(_hist)
 
         # return out 3D histogram as a flattened array
         return hist.flatten()
@@ -28,6 +36,22 @@ class Histogram(object):
         cv2.destroyAllWindows()
 
 
-histogram = Histogram('/Users/DarkSector/Desktop/img_0001.jpg', 'rgb')
-histogram.show_image()
-histogram.generate()
+class HaarCascadeFaceDetection(object):
+
+    def __init__(self, image_location):
+        self.image_location = image_location
+
+    @property
+    def image(self):
+        img = cv2.imread(self.image_location, cv2.IMREAD_COLOR)
+        if img is None:
+            raise ImageNotFoundException("Unable to find image in location")
+        return img
+
+    @property
+    def face_cascade_classifier(self):
+        return None
+
+    def _detect_faces(self):
+        pass
+
