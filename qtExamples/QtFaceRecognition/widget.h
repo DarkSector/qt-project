@@ -44,6 +44,8 @@ private slots:
 
     void faceDetectserviceRequestFinished(QNetworkReply *reply);
 
+    void histogramGenerateRequestComplete(QNetworkReply *reply);
+
     void on_runFaceDetection_clicked();
 
 private:

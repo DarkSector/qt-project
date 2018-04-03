@@ -269,3 +269,26 @@ void Widget::on_runFaceDetection_clicked()
 void Widget::imageNotLoadedError(){
     QMessageBox::critical(this, "Image Error", "Image not loaded\n\nPlease take a new picture or load one");
 }
+
+
+void Widget::histogramGenerateRequestComplete(QNetworkReply *reply){
+
+    QByteArray buffer = reply->readAll();
+//    qDebug() << buffer;
+
+    // convert buffer to object
+    QJsonDocument jsonDoc(QJsonDocument::fromJson(buffer));
+    QJsonObject jsonReply = jsonDoc.object();
+
+    qDebug() << jsonReply;
+
+    bool error = jsonReply["error"].toBool();
+
+    if (!error){
+        QJsonArray data = jsonReply["data"].toArray();
+        qDebug() << data;
+    }
+    else{
+        qDebug() << error;
+    }
+}
