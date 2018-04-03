@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QPushButton>
 #include <QDebug>
+#include <QString>
 #include "localserver.h"
 #include <QMessageBox>
 
@@ -20,7 +21,8 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_exitButton_clicked()
-{
+{   
+    QLocalServer::removeServer("myLocalServer");
     close();
 
 }
@@ -34,17 +36,21 @@ void MainWindow::on_submitButton_clicked()
 
 void MainWindow::on_startButton_clicked()
 {
+    qDebug() << myServerName1;
+    QString myServerName =  "myLocalServer";
     //https://stackoverflow.com/questions/15635215/not-able-to-start-qlocalserver
-    QLocalServer::removeServer("myLocalServer");
+    QLocalServer::removeServer(myServerName);
+
     if(!mLocalServer->isListening()){
         // If not already listening
-        if(!mLocalServer->listen("myLocalServer")){
+        if(!mLocalServer->listen(myServerName)){
             // start listening to myLocalServer socket
             QMessageBox::critical(this, "Error", mLocalServer->errorString());
             // if something goes wrong popup an error with actual reason
         }
         else{
-            QMessageBox::information(this, "Server status", "Server has been started");
+            QString serverStatusMessage = QString("Server has already been started at \n%1").arg(mLocalServer->fullServerName());
+            QMessageBox::information(this, "Server status", serverStatusMessage);
             // otherwise just tell the user it has been started
         }
     }

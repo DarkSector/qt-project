@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QString>
 
 namespace Ui {
 class MainWindow;
@@ -11,10 +12,11 @@ class LocalServer;
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+    Q_OBJECT    
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    QString getServerName();
     ~MainWindow();
 
 private slots:
