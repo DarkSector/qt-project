@@ -13,9 +13,15 @@ class GenerateHistogramView(APIView):
         # get the image location
         image_location = request.data.get('image_location')
         # use opencv to create a histogram and return results
-        histogram = Histogram(image_location, 'rgb')
-        data = histogram.generate()
-        return Response({'error': False, 'data': data})
+        try:
+            histogram = Histogram(image_location, 'rgb')
+            data = histogram.generate()
+        except ImageNotFoundException:
+            return Response({"error": True, "data": "Image not found"})
+        except Exception as e:
+            return Response({"error": True, "data": "%s" % e.message})
+        else:
+            return Response({'error': False, 'data': data})
 
 
 class FaceDetection(APIView):
