@@ -24,7 +24,7 @@ class Histogram(object):
     def image(self):
         """
         Reads in the image from the given location
-        :return: ``numpy.array``
+        :return: ``numpy.ndarray``
         """
         img = cv2.imread(self.image_location, cv2.IMREAD_COLOR)
         if img is None:
@@ -32,7 +32,10 @@ class Histogram(object):
         return img
 
     def generate(self):
-
+        """
+        Function to generate actual histogram arrays
+        :return: type: ``dict`` Returns a dict of r,g,b pixel counts
+        """
         # b 0 , g 1, r 2
         # mask is None
         # bins are 128 by default
@@ -44,6 +47,9 @@ class Histogram(object):
         return hist_dict
 
     def show_image(self):
+        """
+        DEBUG ONLY! DO NOT CALL IN A NORMAL THREAD
+        """
         cv2.imshow('My Image', self.image)
         cv2.waitKey(0) & 0xFF
         cv2.destroyAllWindows()
@@ -64,7 +70,7 @@ class HaarCascadeFaceDetection(object):
     def image(self):
         """
         Reads the image from the given location in the constructor
-        :return: ``numpy.nd``
+        :return: ``numpy.ndarray``
         """
         img = cv2.imread(self.image_location, cv2.IMREAD_COLOR)
         if img is None:
@@ -85,21 +91,21 @@ class HaarCascadeFaceDetection(object):
     def gray(self):
         """
         Color the picture gray
-        :return: ``numpy.nd``
+        :return: ``numpy.ndarray``
         """
         return cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
 
     def _detect_faces(self):
         """
         Find all features in a given image and return coordinates for bounding boxes as numpy array
-        :return: ``numpy.nd``
+        :return: ``numpy.ndarray``
         """
         return self.classifier.detectMultiScale(self.gray, 1.5, 5)
 
     def detect(self):
         """
         Function detects faces according to given
-        :return: ``numpy.ndarray``
+        :return: ``numpy.ndarrayarray``
         """
         faces = self._detect_faces()
         return faces
