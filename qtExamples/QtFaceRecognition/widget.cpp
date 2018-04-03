@@ -251,7 +251,14 @@ void Widget::on_runFaceDetection_clicked()
         updateCurrentStatus("Sending request ...", false);
     }
     else{
-        this->on_loadImage_clicked();
+        QMessageBox::StandardButton reply = QMessageBox::information(this,
+                                                                     "Feature detection",
+                                                                     "Please upload an image before processing\n\nUpload now?",
+                                                                     QMessageBox::Yes | QMessageBox::No);
+        if (reply == QMessageBox::Yes){
+            this->on_loadImage_clicked();
+        }
+
     }
 
 }
