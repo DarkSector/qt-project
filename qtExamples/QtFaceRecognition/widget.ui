@@ -89,13 +89,6 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="runFaceRecognition">
-           <property name="text">
-            <string>Run Face Recognition</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QPushButton" name="generateHistogram">
            <property name="text">
             <string>Generate Histogram</string>
@@ -141,7 +134,7 @@
      </widget>
      <widget class="QWidget" name="analysisTab">
       <attribute name="title">
-       <string>ANALYSIS</string>
+       <string>HISTOGRAM</string>
       </attribute>
      </widget>
     </widget>
