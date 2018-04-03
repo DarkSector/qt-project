@@ -34,3 +34,8 @@ class FaceDetection(APIView):
                 # because validation error sends back a 400
             return Response({"error": True, "data": "No faces found"})
 
+
+class SanityCheck(APIView):
+
+    def get(self, request):
+        return Response("ok")
