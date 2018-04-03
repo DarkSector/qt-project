@@ -10,6 +10,14 @@
 #include <QMessageBox>
 #include <QPixmap>
 #include <QGraphicsView>
+#include <QUrl>
+#include <QList>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonValue>
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -171,4 +179,93 @@ void Widget::on_loadImage_clicked()
 
     // Add the new image item
     scene->addItem(image);
+}
+
+void Widget::on_generateHistogram_clicked()
+{
+
+    if (this->checkifSceneEmpty()){
+        QUrl serviceUrl = QUrl("http://0.0.0.0:9000/api/histogram");
+        QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+
+        QNetworkRequest request(serviceUrl);
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+        QJsonObject jsonData;
+        jsonData.insert("image_location", QJsonValue::fromVariant(ui->statusLabel->text()));
+
+
+        QJsonDocument data(jsonData);
+    //    qDebug() << data.toJson();
+
+        connect(manager,
+                SIGNAL(finished(QNetworkReply*)),
+                this,
+                SLOT(serviceRequestFinished(QNetworkReply*)));
+
+        manager->post(request, data.toJson());
+    }
+    else{
+        this->imageNotLoadedError();
+    }
+}
+
+void Widget::faceDetectserviceRequestFinished(QNetworkReply *reply){
+
+    QByteArray buffer = reply->readAll();
+//    qDebug() << buffer;
+
+    // convert buffer to object
+    QJsonDocument jsonDoc(QJsonDocument::fromJson(buffer));
+    QJsonObject jsonReply = jsonDoc.object();
+
+    qDebug() << jsonReply;
+
+    bool error = jsonReply["error"].toBool();
+
+
+    if (!error){
+        QJsonArray data = jsonReply["data"].toArray();
+        qDebug() << data;
+    }
+    else{
+        qDebug() << error;
+    }
+}
+
+bool Widget::checkifSceneEmpty(){
+    return !scene->items().empty();
+//    return false;
+}
+
+void Widget::on_runFaceDetection_clicked()
+{
+
+    if (this->checkifSceneEmpty()){
+        QUrl serviceUrl = QUrl("http://0.0.0.0:9000/api/face_detection");
+        QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+
+        QNetworkRequest request(serviceUrl);
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+        QJsonObject jsonData;
+        jsonData.insert("image_location", QJsonValue::fromVariant(ui->statusLabel->text()));
+
+        QJsonDocument data(jsonData);
+
+        connect(manager,
+                SIGNAL(finished(QNetworkReply*)),
+                this,
+                SLOT(faceDetectserviceRequestFinished(QNetworkReply*)));
+
+        manager->post(request, data.toJson());
+    }
+    else{
+        this->imageNotLoadedError();
+    }
+
+}
+
+void Widget::imageNotLoadedError(){
+    QMessageBox::critical(this, "Image Error", "Image not loaded\n\nPlease take a new picture or load one");
 }

@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 #include <QGraphicsPixmapItem>
+#include <QNetworkReply>
 
 namespace Ui {
 class Widget;
@@ -20,8 +21,10 @@ class Widget : public QWidget
     Q_OBJECT
 
 public:
-    explicit Widget(QWidget *parent = nullptr);
+    explicit Widget(QWidget *parent = nullptr);    
     void setEncoding();
+    bool checkifSceneEmpty();
+    void imageNotLoadedError();
     ~Widget();
 
 private slots:
@@ -37,6 +40,12 @@ private slots:
 
     void on_loadImage_clicked();
 
+    void on_generateHistogram_clicked();
+
+    void faceDetectserviceRequestFinished(QNetworkReply *reply);
+
+    void on_runFaceDetection_clicked();
+
 private:
     Ui::Widget *ui;
 
@@ -49,7 +58,9 @@ private:
     // Graphics
     QGraphicsScene *scene;
     QGraphicsRectItem *rect;
-    QGraphicsPixmapItem *image;
+    QGraphicsPixmapItem *image;    
+
+
 };
 
 #endif // WIDGET_H
