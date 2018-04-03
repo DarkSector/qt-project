@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import cv2
 
@@ -41,7 +43,8 @@ class HaarCascadeFaceDetection(object):
     _blue = (255, 0, 0)
     _green = (0, 255, 0)
     _red = (0, 0, 255)
-    face_classifier_cascade_file = "haarcascades/haarcascade_frontalface_default.xml"
+    base = os.path.dirname(os.path.abspath(__file__))
+    face_classifier_cascade_file = os.path.join(base, "haarcascades/haarcascade_frontalface_default.xml")
 
     def __init__(self, image_location):
         self.image_location = image_location
@@ -58,12 +61,14 @@ class HaarCascadeFaceDetection(object):
         return img
 
     @property
-    def get_classifier(self):
+    def classifier(self):
         """
         Returns the cascade classifier with the currently selected classifier training data
         :return: ``cv2.CascadeClassifier``
         """
-        return cv2.CascadeClassifier(self.face_classifier_cascade_file)
+        _classifier = cv2.CascadeClassifier(self.face_classifier_cascade_file)
+        print type(_classifier)
+        return _classifier
 
     @property
     def gray(self):
@@ -78,14 +83,15 @@ class HaarCascadeFaceDetection(object):
         Find all features in a given image and return coordinates for bounding boxes as numpy array
         :return: ``numpy.nd``
         """
-        return self.get_classifier.detectMultiScale(self.gray, 1.5, 5)
+        return self.classifier.detectMultiScale(self.gray, 1.5, 5)
 
     def detect(self):
         """
         Function detects faces according to given
         :return: ``numpy.ndarray``
         """
-        return self._detect_faces()
+        faces = self._detect_faces()
+        return faces
 
     def show_classified_image(self):
         """
