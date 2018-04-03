@@ -60,6 +60,7 @@ private:
 
     // Graphics
     QGraphicsScene *scene;
+    QGraphicsScene *histogramScene;
     QGraphicsRectItem *rect;
     QGraphicsPixmapItem *image;    
 

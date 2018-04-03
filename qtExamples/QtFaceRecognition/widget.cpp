@@ -1,5 +1,6 @@
 #include "widget.h"
 #include "ui_widget.h"
+
 #include <QDebug>
 #include <QCamera>
 #include <QImageEncoderSettings>
@@ -19,11 +20,15 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QProcess>
+#include <QPointF>
+
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
-{
+{    
     ui->setupUi(this);           
 
     // Always start with 0
@@ -55,6 +60,9 @@ Widget::Widget(QWidget *parent) :
     // Graphics initialization
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
+
+    histogramScene = new QGraphicsScene(this);
+    ui->histogramGraphicsView->setScene(histogramScene);
 
 }
 
@@ -216,6 +224,7 @@ void Widget::on_generateHistogram_clicked()
                 SLOT(histogramGenerateRequestComplete(QNetworkReply*)));
 
         manager->post(request, data.toJson());
+        updateCurrentStatus("Sending request ...", false);
     }
     else{
         this->imageNotLoadedError();
@@ -269,23 +278,93 @@ void Widget::imageNotLoadedError(){
 
 void Widget::histogramGenerateRequestComplete(QNetworkReply *reply){
 
+    // Charts need namespace resolving otherwise error creeps up
+    QT_CHARTS_USE_NAMESPACE
+
+    // get the reply buffer and read it completely into QByteArray
     QByteArray buffer = reply->readAll();
 //    qDebug() << buffer;
 
-    // convert buffer to object
-    QJsonDocument jsonDoc(QJsonDocument::fromJson(buffer));
-    QJsonObject jsonReply = jsonDoc.object();
+    if (!buffer.isEmpty()){
+        ui->tabWidget->setCurrentIndex(2);
+        // convert buffer to object
+        QJsonDocument jsonDoc(QJsonDocument::fromJson(buffer));
+        QJsonObject jsonReply = jsonDoc.object();
 
-    qDebug() << jsonReply;
+        // check for boolean error
+        bool error = jsonReply["error"].toBool();
 
-    bool error = jsonReply["error"].toBool();
+        if (!error){
+            // This means data came back with actual values
+            QJsonObject data = jsonReply["data"].toObject();
+            // extact rgb hist values
+            QJsonArray r = data["r"].toArray();
+            QJsonArray g = data["g"].toArray();
+            QJsonArray b = data["b"].toArray();
 
-    if (!error){
-        QJsonArray data = jsonReply["data"].toArray();
-        qDebug() << data;
+            updateCurrentStatus(QString("\n\nRequest Completed\n\nHistogram generated"), true);
+
+            // line chart generation
+
+            // three lines
+            QLineSeries *series0 = new QLineSeries();
+            QLineSeries *series1 = new QLineSeries();
+            QLineSeries *series2 = new QLineSeries();
+
+            // Set color for lines
+            series0->setColor(QColor(255, 0, 0, 255));
+            series1->setColor(QColor(0, 255, 0, 255));
+            series2->setColor(QColor(0, 0, 255, 255));
+
+            // load dataset
+            for(int i = 0; i <= 255; i++){
+                // is the pixel intensity
+                // y is the pixel count
+                series0->append(i, r[i].toDouble());
+                series1->append(i, g[i].toDouble());
+                series2->append(i, b[i].toDouble());
+            }
+
+            QChart *chart = new QChart();
+
+            // hide the legend
+            chart->legend()->hide();
+
+            // add the three series
+            chart->addSeries(series0);
+            chart->addSeries(series1);
+            chart->addSeries(series2);
+
+            // x-y AXIS update and title update
+            chart->createDefaultAxes();
+            chart->axisX()->setRange(1, 256);
+            chart->axisX()->setTitleText("PIXEL INTENSITY");
+            chart->axisY()->setTitleText("PIXEL COUNT");
+            chart->setTitle("RGB PIXEL INTENSITY DISTRIBUTION HISTOGRAM");
+
+            // create a chart view widget
+            QChartView *chartView = new QChartView(chart);
+            chartView->setRenderHint(QPainter::Antialiasing);
+
+            // resize it to fill out the entire graphicsview
+            chartView->resize(ui->histogramGraphicsView->width(), ui->histogramGraphicsView->height());
+            histogramScene->addWidget(chartView);
+
+            // move over to the tab once it's done
+            ui->tabWidget->setCurrentIndex(2);
+
+        }
+        else{
+            // This is error
+            qDebug() << "Error encountered";
+            qDebug() << error;
+            updateCurrentStatus(QString("\n\nRequest Completed\n\nNo images detected"), true);
+        }
     }
+
     else{
-        qDebug() << error;
+        QMessageBox::critical(this, tr("Error"), tr("No response from server\nPlease make sure the server is running"
+                                             "before feature detection"));
     }
 }
 
