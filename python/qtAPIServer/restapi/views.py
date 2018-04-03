@@ -26,4 +26,4 @@ class FaceDetection(APIView):
         image_location = request.data.get('image_location')
         hcfd = HaarCascadeFaceDetection(image_location)
         features = hcfd.detect()
-        return Response(features)
+        return Response(json.dumps(features.tolist()))
