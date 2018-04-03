@@ -1,8 +1,10 @@
 # Create your views here.
 import json
+
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from api import Histogram, HaarCascadeFaceDetection
+from api import Histogram, HaarCascadeFaceDetection, ImageNotFoundException
 
 
 class GenerateHistogramView(APIView):
@@ -24,6 +26,14 @@ class FaceDetection(APIView):
 
     def post(self, request):
         image_location = request.data.get('image_location')
-        hcfd = HaarCascadeFaceDetection(image_location)
-        features = hcfd.detect()
-        return Response(json.dumps(features.tolist()))
+        try:
+            hcfd = HaarCascadeFaceDetection(image_location)
+            features = hcfd.detect()
+        except ImageNotFoundException:
+            return Response({"error": True, "data": "Image not found"})
+        else:
+            if features.size != 0:
+                return Response({"error": False, "data": features.tolist()})
+            # because validation error sends back a 400
+            return Response({"error": True, "data": "No faces found"})
+
