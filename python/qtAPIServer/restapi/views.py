@@ -2,7 +2,7 @@
 import json
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from api import Histogram
+from api import Histogram, HaarCascadeFaceDetection
 
 
 class GenerateHistogramView(APIView):
@@ -23,5 +23,7 @@ class GenerateHistogramView(APIView):
 class FaceDetection(APIView):
 
     def post(self, request):
-
-        pass
+        image_location = request.data.get('image_location')
+        hcfd = HaarCascadeFaceDetection(image_location)
+        features = hcfd.detect()
+        return Response(features)
