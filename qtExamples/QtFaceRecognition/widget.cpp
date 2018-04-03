@@ -119,7 +119,7 @@ void Widget::onImageSaved(int id, const QString &fileName){
 
         // Add the new image item
         scene->addItem(image);
-    }
+    }   
 }
 
 void Widget::on_takePicture_clicked()
@@ -179,6 +179,9 @@ void Widget::on_loadImage_clicked()
 
     // Add the new image item
     scene->addItem(image);
+
+    QString status = QString("Image added!");
+    updateCurrentStatus(status, false);
 }
 
 void Widget::on_generateHistogram_clicked()
@@ -236,6 +239,7 @@ void Widget::on_runFaceDetection_clicked()
                 SLOT(faceDetectserviceRequestFinished(QNetworkReply*)));
 
         manager->post(request, data.toJson());
+        updateCurrentStatus("Sending request ...", false);
     }
     else{
         this->imageNotLoadedError();
@@ -294,10 +298,25 @@ void Widget::faceDetectserviceRequestFinished(QNetworkReply *reply){
             rect->setRect(arr[0].toInt(), arr[1].toInt(), arr[2].toInt(), arr[3].toInt());
             scene->addItem(rect);
         }
+        updateCurrentStatus(QString("\n\nRequest Completed\n\nFaces detected"), true);
     }
     else{
         // This is error
         qDebug() << "Error encountered";
         qDebug() << error;
+        updateCurrentStatus(QString("\n\nRequest Completed\n\nNo images detected"), true);
     }
+}
+
+void Widget::updateCurrentStatus(QString status, bool append=false){
+    qDebug() << "updating current status";
+    if (append){
+        QString currentText = ui->currentStatus->text();
+        currentText.append(status);
+        ui->currentStatus->setText(currentText);
+    }
+    else{
+        ui->currentStatus->setText(status);
+    }
+
 }
