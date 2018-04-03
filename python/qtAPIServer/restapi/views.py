@@ -12,13 +12,9 @@ class GenerateHistogramView(APIView):
     def post(self, request):
         # get the image location
         image_location = request.data.get('image_location')
-
         # use opencv to create a histogram and return results
         histogram = Histogram(image_location, 'rgb')
         data = histogram.generate()
-        return Response(json.dumps({'foo': 'bar'}))
-
-    def get(self, request):
         return Response({'foo': 'bar'})
 
 
