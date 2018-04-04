@@ -1,4 +1,4 @@
-name: qtAPI2
+name: qt
 channels:
   - conda-forge
   - defaults
