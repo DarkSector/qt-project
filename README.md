@@ -45,12 +45,6 @@ We are working on Mac OS X, so we need to install Xcode command line tools. If t
 ### Anaconda
 * We want to work with OpenCV 2.3.14 on python2.7, best way to do that is install Anaconda for IPython. 
 * Grab the latest version [here](https://www.anaconda.com/download/#macos)
-* Download Python3 using conda (alternative to pip) and create a virtual environment so that code can be isolated.
-* This will create an environemnt called qt using python2.7 `$ conda create -n qt python=2.7 anaconda`
-* We can check what environment we're in by using `conda env list`, the active env is marked by a *
-* Switch to qt using `source activate qt`
-* For more info on the commands: [Here's a cheat sheet](https://conda.io/docs/_downloads/conda-cheatsheet.pdf)
-
 
 ## Setup, Installation and Running
 
@@ -66,7 +60,7 @@ The project already includes a built binary for Mac OS X and can be found in rel
 
 #### Python
 
-The <strong>python development setup</strong> depends upon the following packages:
+The python development setup depends upon the following packages:
 
 * django
 * djangorestframework
@@ -80,14 +74,19 @@ The server needs to run on `0.0.0.0:9000` using the default django command `pyth
 
 ### Running
 
-* Activate your Conda environment: `$ source qt activate`
 * Run the provided script `$ sh run.sh`
 
-The script is designed to install the included python package in the conda environment and then open the GUI. It will run the server on `0.0.0.0:9000` and the GUI will interact with it according to design. 
+The script is designed to install a new conda enviroment, activate said environment and then start the python server in the backgroun and then open the GUI. It will run the server on `0.0.0.0:9000` and the GUI will interact with it according to design. 
 
-If the above script fails to work, you can manually install the python package by executing `conda install --use-local opencv-server` and once done, you can start the server by `python runkernel.py`
+If the above script fails to work, you can manually install the python package by executing the following commands after going into the main qt-project directory:
 
-Then you can open the GUI like any other app on OS X.
+* `conda env create -f environment.yml` # this will install the environment named qt
+* `source activate qt` # this will activate it
+* `nohup `which python` python/qtAPIServer/manage.py runserver 0.0.0.0:9000 &` # this will start the server in the background
+* `open ./QtFaceRecognition.app` # this will open the gui application
+
+For more info on the conda commands: [Here's a cheat sheet](https://conda.io/docs/_downloads/conda-cheatsheet.pdf)
+
 
 
 ## Architecture
