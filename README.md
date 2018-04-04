@@ -8,7 +8,7 @@ A simple Qt-Python hybrid experiment
  * [Setup, Installation and Running](#setup-installation-and-running)
  * [Architecture](#architecture)
  * [Caveats and known issues](#caveats-and-known-issues)
- * [Future work](#futurework)
+ * [Future work](#future-work)
 
 ## Objective
 
@@ -140,3 +140,15 @@ This application was built in a very short time, the following issues may persis
 * C++ source is cramped. Proper encapsulation & abstraction of features is much desired. 
 
 Qt is a very robust but a very tough enterprise framework. It has a steep learning curve. Python bindings for PyQt and PySide are great to create a prototype but in the end C++ is definitely the way to go when using it. Other Frameworks like TKinter, Kivy are poorly documented (comparatively) and are therefore not reliable. Qt is the way to go for enterprise software if you can get the hang of it.
+
+
+## Future work
+
+* Cleaning up C++ sources and well documenting them
+* Standardized python HTTP responses
+* Include more cascade features
+* Add an a gallery to preview and experiment on previous images
+* Add an option to train a classifier
+* Add HSV histogram option
+* Proper Camera handling and exposure settings
+* Try and use boost::python to come up with a better solution to work with a python kernel
