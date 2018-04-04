@@ -73,7 +73,7 @@
      </widget>
      <widget class="QWidget" name="previewTab">
       <attribute name="title">
-       <string>PREVIEW</string>
+       <string>ANALYSIS</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="1">

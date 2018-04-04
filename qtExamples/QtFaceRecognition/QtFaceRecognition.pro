@@ -32,3 +32,5 @@ HEADERS += \
 
 FORMS += \
         widget.ui
+
+ICON = icon.icns
