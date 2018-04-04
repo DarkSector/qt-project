@@ -82,7 +82,7 @@ If the above script fails to work, you can manually install the python package b
 
 * `conda env create -f environment.yml` # this will install the environment named qt
 * `source activate qt` # this will activate it
-* `nohup `which python` python/qtAPIServer/manage.py runserver 0.0.0.0:9000 &` # this will start the server in the background
+* <pre>nohup `which python` python/qtAPIServer/manage.py runserver 0.0.0.0:9000 &</pre> # this will start the server in the background
 * `open ./QtFaceRecognition.app` # this will open the gui application
 
 For more info on the conda commands: [Here's a cheat sheet](https://conda.io/docs/_downloads/conda-cheatsheet.pdf)
