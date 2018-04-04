@@ -14,6 +14,10 @@ A simple Qt-Python hybrid experiment
 
 To create a Qt GUI application that interacts with a python kernel to detect faces in a given image. The image may be loaded to the GUI or be taken via the camera of the user. 
 
+![screenshot-face-detection](https://github.com/DarkSector/qt-project/blob/master/demo1.png)
+![screenshot-histogram](https://github.com/DarkSector/qt-project/blob/master/demo2.png)
+
+
 
 ## Requirements
  
